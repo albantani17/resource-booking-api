@@ -3,9 +3,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './module/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
+      verifyOptions: { algorithms: ['HS256'] },
+    }),
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

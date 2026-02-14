@@ -13,6 +13,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalInterceptors(new ResponseInterceptor());
+  app.enableCors();
   app.setGlobalPrefix('/api');
 
   await app.listen(process.env.PORT ?? 3000);

@@ -2,15 +2,23 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   InternalServerErrorException,
   Post,
+  Req,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { JwtClaims } from './interface/auth.interface';
+import { AuthGuard } from './auth.guard';
+import { SerializeInterceptor } from 'src/common/interceptor/serialize.interceptor';
+import { UserDto } from './dto/user.dto';
 
 @Controller('auth')
+@UseInterceptors(new SerializeInterceptor(UserDto))
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -35,6 +43,19 @@ export class AuthController {
         throw error;
       }
       throw new InternalServerErrorException('Failed to login user', error);
+    }
+  }
+
+  @Get('me')
+  @UseGuards(AuthGuard)
+  async me(@Req() req: { user: JwtClaims }) {
+    try {
+      return await this.authService.me(req.user.userId);
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Failed to get user', error);
     }
   }
 }
