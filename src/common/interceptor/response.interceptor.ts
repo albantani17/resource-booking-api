@@ -20,8 +20,9 @@ export class ResponseInterceptor implements NestInterceptor {
         if (data instanceof ReturnPaginationDto) {
           return {
             message: response.message,
-            data,
+            data: data.data,
             meta: {
+              pagination: data.meta,
               statusCode,
               error: statusCode >= 400 ? response.message : null,
               timestamp: new Date().toISOString(),

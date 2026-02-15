@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './module/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { ResourcesModule } from './module/resources/resources.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
       verifyOptions: { algorithms: ['HS256'] },
     }),
     AuthModule,
+    ResourcesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
