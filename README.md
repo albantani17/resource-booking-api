@@ -54,7 +54,9 @@ Follow these steps to get the project up and running on your local machine.
 3.  **Environment Setup**
     Create a `.env` file in the root directory and configure your environment variables:
     ```env
-    DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
+    DATABASE_URL="postgres://[username]:[password]@localhost:5432/resource-booking"
+    ADMIN_EMAIL="admin@gmail.com"
+    ADMIN_PASSWORD="Admin123!"
     JWT_SECRET="your_super_secret_key"
     ```
 
