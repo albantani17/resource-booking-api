@@ -16,6 +16,12 @@ export class ResourceDto implements Resource {
   location: string;
 
   @Expose()
+  capacity: number;
+
+  @Expose()
+  price: number;
+
+  @Expose()
   createdAt: Date;
 
   @Expose()

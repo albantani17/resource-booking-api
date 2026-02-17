@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JsonWebTokenError, JwtService, TokenExpiredError,  } from '@nestjs/jwt';
+import { JsonWebTokenError, JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { JwtClaims } from './interface/auth.interface';
 
 @Injectable()

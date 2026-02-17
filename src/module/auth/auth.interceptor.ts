@@ -6,9 +6,10 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { JwtClaims } from './interface/auth.interface';
+import { Role } from 'generated/prisma/enums';
 
 export class AuthInterceptor implements NestInterceptor {
-  constructor(private readonly role: string) {}
+  constructor(private readonly role: Role[]) {}
   intercept(
     context: ExecutionContext,
     next: CallHandler<any>,
@@ -16,7 +17,7 @@ export class AuthInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const user = request.user as JwtClaims;
 
-    if (user.role !== this.role) {
+    if (!this.role.includes(user.role)) {
       throw new UnauthorizedException('Unauthorized');
     }
 

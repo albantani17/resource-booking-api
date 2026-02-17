@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -19,6 +19,20 @@ enum Role {
   USER
 }
 
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+enum BookingPaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -29,6 +43,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   resources Resource[]
+  bookings  Booking[]
 }
 
 model Resource {
@@ -36,9 +51,33 @@ model Resource {
   name        String
   description String?
   location    String
+  capacity    Int      @default(1)
+  price       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   createdById String
   createdBy   User   @relation(fields: [createdById], references: [id])
+
+  bookings Booking[]
+}
+
+model Booking {
+  id             String               @id @default(uuid())
+  startTime      DateTime
+  endTime        DateTime
+  status         BookingStatus        @default(PENDING)
+  priceAtBooking Int
+  totalAmount    Int
+  paymentStatus  BookingPaymentStatus @default(PENDING)
+  paymentAt      DateTime?
+  slots          Int
+  expiredAt      DateTime
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
 }

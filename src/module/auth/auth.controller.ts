@@ -18,11 +18,11 @@ import { SerializeInterceptor } from 'src/common/interceptor/serialize.intercept
 import { UserDto } from './dto/user.dto';
 
 @Controller('auth')
-@UseInterceptors(new SerializeInterceptor(UserDto))
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
+  @UseInterceptors(new SerializeInterceptor(UserDto))
   async register(@Body() registerDto: RegisterDto) {
     try {
       return await this.authService.register(registerDto);
@@ -47,6 +47,7 @@ export class AuthController {
   }
 
   @Get('me')
+  @UseInterceptors(new SerializeInterceptor(UserDto))
   @UseGuards(AuthGuard)
   async me(@Req() req: { user: JwtClaims }) {
     try {

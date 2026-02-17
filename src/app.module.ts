@@ -5,9 +5,12 @@ import { AuthModule } from './module/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { ResourcesModule } from './module/resources/resources.module';
+import { BookingsModule } from './module/bookings/bookings.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.register({
       global: true,
@@ -17,6 +20,7 @@ import { ResourcesModule } from './module/resources/resources.module';
     }),
     AuthModule,
     ResourcesModule,
+    BookingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
