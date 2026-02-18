@@ -84,7 +84,7 @@ Interactive API documentation is available via Swagger UI.
 
 Ensure the system allows for safe concurrency by running the test suite.
 
-```bash
+```bash 
 # unit tests
 pnpm run test
 
